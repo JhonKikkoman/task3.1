@@ -1,18 +1,35 @@
-export default function Listing() {
+import { itemModel, propModel } from "../models";
+
+export default function Listing({ item }: propModel<object>| any): JSX.Element { /// так и не разобрался с any 
+    let levelProp: string = "";
+    const checkinQuantity = (etc: number): string => {
+        if (etc <= 10) {
+            levelProp = "item-quantity level-low";
+        } else if (etc <= 20) {
+            levelProp = "item-quantity level-medium";
+        } else if (etc > 20) {
+            levelProp = "item-quantity level-high";
+        }
+        return levelProp;
+    }
+
     return (
-        < div className="item-list" >
-            <div className="item">
-                <div className="item-image">
-                    <a href="https://www.etsy.com/listing/292754135/woodland-fairy">
-                        <img src="https://img1.etsystatic.com/156/0/12814579/il_570xN.1173240751_50hv.jpg" alt=""></img>
-                    </a>
-                </div>
-                <div className="item-details">
-                    <p className="item-title">Woodland Fairy</p>
-                    <p className="item-price">$3.99</p>
-                    <p className="item-quantity level-medium">12 left</p>
-                </div>
-            </div>
-        </div >
+        <>
+            {item.map((e: itemModel<string, number>) =>
+                < div key={e.listing_id} className="item-list" >
+                    <div className="item">
+                        <div className="item-image">
+                            <a href={e.url}>
+                                <img src={e.MainImage?.url_570xN} alt=""></img>
+                            </a>
+                        </div>
+                        <div className="item-details">
+                            <p className="item-title">{e.title?.length > 50 ? e.title.slice(0, 50) + '...' : e.title}</p>
+                            <p className="item-price">{e.currency_code}{e.price}</p>
+                            <p className={checkinQuantity(e.quantity)}>{e.quantity}</p>
+                        </div>
+                    </div>
+                </div >)}
+        </>
     );
 }
