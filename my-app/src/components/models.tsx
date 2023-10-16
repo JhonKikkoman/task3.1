@@ -1,13 +1,13 @@
-export interface itemModel<T, U> {
-    listing_id: U;
-    url: T;
+export interface itemModel {
+    listing_id?: number;
+    url?: string;
     MainImage?: { url_570xN: string };
-    title: T;
-    currency_code?: T;
-    price: T;
-    quantity: U;
+    title?: string;
+    currency_code?: string;
+    price?: string;
+    quantity?: number;
 };
 
-export interface propModel<T> {
-    item: T;
+export type itemType = {
+    items: itemModel[]
 }
